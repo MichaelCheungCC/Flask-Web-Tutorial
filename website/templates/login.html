@@ -1,4 +1,34 @@
 {% extends "base.html" %} {% block title %} Login {% endblock %} {% block
 content %}
-<h1>This is the login page</h1>
-{{text}} {% endblock %}
+<br />
+<form method="POST">
+  <h3 align="left">
+    Please login your account below. If you do not have an account, please
+    navigate to sign up page.
+  </h3>
+
+  <br />
+  <div class="form-group">
+    <label for="email">Email Address</label>
+    <input
+      type="email"
+      class="form-control"
+      id="email"
+      name="email"
+      placeholder="Enter your email"
+    />
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input
+      type="password"
+      class="form-control"
+      id="password"
+      name="password"
+      placeholder="Enter your password"
+    />
+    <br />
+    <button type="submit" class="btn btn-primary">Login</button>
+  </div>
+</form>
+{% endblock %}
