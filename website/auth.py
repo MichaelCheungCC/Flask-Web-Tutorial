@@ -3,16 +3,34 @@ import re
 from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
+from flask_login import login_user, login_required, logout_user, current_user
 
 auth = Blueprint('auth', __name__)
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template("login.html", text="Here is some text.")
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        user = User.query.filter_by(email=email).first()
+        if user:
+            if check_password_hash(user.password, password):
+                flash(f'Logged in as {email} successfully!', category='success')
+                login_user(user, remember=True)
+                return redirect(url_for('views.home'))
+            else:
+                flash('Incorrect password, please try again.', category='error')
+        else:
+            flash(f'{email} does not exist! Please sign up.', category='error')
+
+    return render_template("login.html", user=current_user)
 
 @auth.route('/logout')
+@login_required
 def logout():
-    return "<p>logout</p>"
+    logout_user()
+    return redirect(url_for('auth.login'))
 
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
@@ -26,7 +44,10 @@ def sign_up():
         email_regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
         password_regex = r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$'
 
-        if not re.fullmatch(email_regex, email):
+        user = User.query.filter_by(email=email).first()
+        if user:
+            flash('Email already exists. Please try with another email!', category='error')
+        elif not re.fullmatch(email_regex, email):
             flash('Please enter a valid Email address.', category='error')
         elif len(first_name) < 3 or len(last_name) < 3:
             flash('First name and last name must be at least 3 characters long.', category='error')
@@ -38,7 +59,8 @@ def sign_up():
             new_user = User(email=email, first_name=first_name, last_name=last_name, password=generate_password_hash(password1, method='sha256'))
             db.session.add(new_user)
             db.session.commit()
+            login_user(new_user, remember=True)
             flash('Account created!', category='success')
-        return redirect(url_for('views.home'))
+            return redirect(url_for('views.home'))
 
-    return render_template("sign_up.html")
+    return render_template("sign_up.html", user=current_user)
