@@ -1,0 +1,9 @@
+h3, p1, ul {
+  caret-color: transparent;
+}
+
+::selection {
+    background-color: #c933ff;
+    color: #FFFFFF;
+    z-index: 9999;
+  }
