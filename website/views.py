@@ -3,6 +3,8 @@ from flask_login import login_required, current_user
 from .models import Note
 from . import db
 import json
+import pytz
+from datetime import datetime
 
 views = Blueprint('views', __name__)
 
@@ -15,7 +17,7 @@ def home():
         if len(note) < 1:
             flash('Please enter something in the note!', category='error')
         else:
-            new_note = Note(data=note, user_id=current_user.id)
+            new_note = Note(data=note, user_id=current_user.id, date=pytz.timezone('Asia/Shanghai').localize(datetime.now()))
             db.session.add(new_note)
             db.session.commit()
             flash('Note added!', category='success')
