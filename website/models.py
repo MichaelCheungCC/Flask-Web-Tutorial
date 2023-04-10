@@ -5,9 +5,18 @@ from sqlalchemy.sql import func
 
 class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    category = db.Column(db.String(20))
     data = db.Column(db.String(10000))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    date = db.Column(db.DateTime(timezone=True), nullable=False) # UTC+08:00 timezone
+    date = db.Column(db.DateTime(timezone=True), nullable=False)
+
+
+class To_do(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    data = db.Column(db.String(10000))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    date = db.Column(db.DateTime(timezone=True), nullable=False)
+    due_date = db.Column(db.Date(), nullable=False)
 
 
 class User(db.Model, UserMixin):
@@ -17,3 +26,4 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(150))
     password = db.Column(db.String(150))
     notes = db.relationship('Note')
+    to_dos = db.relationship('To_do')

@@ -1,22 +1,43 @@
-{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
-%}
-<h1 align="center">Notes</h1>
-<ul class="list-group list-group-flush" id="notes">
-  <!--pass variable user from render_template kwarg-->
-  {% for note in user.notes %}
-  <li class="list-group-item">
-    <span class="badge badge-secondary badge-pill">{{ note.date.strftime('%Y-%m-%d %H:%M') }}</span>
-    <span>{{ note.data }}</span>
-    <button type="button" class="close" onClick="deleteNote({{ note.id }})">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </li>
-  {% endfor %}
-</ul>
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content %}
+<br />
+<h1>Notes</h1>
+<br />
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="table-col1">Category</th>
+        <th class="table-col2">Item</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="note-list">
+      {% for note in user.notes %}
+      <tr>
+        <td style="text-align:center;"><span class="badge badge-pill table-size category-badge"
+            data-category="{{ note.category }}">{{ note.category
+            }}</span></td>
+        <td><span class="table-size">{{ note.data }}</span></td>
+        <td><button type="button" class="close" onClick="deleteNote({{ note.id }})"><span
+              aria-hidden="true">&times;</span></button></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 <form method="POST">
-  <textarea name="note" id="note" class="form-control"></textarea>
+  <div id="note_input">
+    <select name="category" id="category" class="form-control">
+      <option value="" selected disabled>Select a category</option>
+      <option value="Personal">Personal</option>
+      <option value="Work">Work</option>
+      <option value="Study">Study</option>
+      <option value="Other">Other</option>
+    </select>
+    <input type="text" name="note" id="note" class="form-control" placeholder="Note..."></input>
+  </div>
   <br />
-  <div align="center">
+  <div style="text-align: center;">
     <button type="submit" class="btn btn-primary">Add Note</button>
   </div>
 </form>

@@ -1,9 +1,55 @@
-h3, p1, ul, label, br {
+h1 {
+  text-align: center;
+}
+
+h1,
+h2,
+h3,
+p1,
+ul,
+label,
+br,
+table {
   caret-color: transparent;
 }
 
 ::selection {
-    background-color: #c933ff;
-    color: #FFFFFF;
-    z-index: 9999;
-  }
+  background-color: #c933ff;
+  color: #FFFFFF;
+  z-index: 9999;
+}
+
+.table-col1 {
+  width: 20%;
+  font-size: 18px;
+  text-align: center
+}
+
+.table-col2 {
+  font-size: 18px;
+  text-indent: 10px;
+}
+
+.table-size {
+  font-size: 16px
+}
+
+input#to-do,
+input#note {
+  margin-left: 10px;
+}
+
+select#category, input#due_date {
+  width: 20%;
+  font-size: 16px;
+}
+
+input#note, input#to-do {
+  width: 80%;
+}
+
+#note_input,
+#to_do_input {
+  display: flex;
+  align-items: center;
+}

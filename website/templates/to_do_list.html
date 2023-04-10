@@ -1,0 +1,38 @@
+{% extends "base.html" %} {% block title %}To-Do{% endblock %} {% block content %}
+<br />
+<h1>To-Do List</h1>
+<br />
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="table-col1">Due Date</th>
+        <th class="table-col2">Item</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="to-do-list">
+      {% for to_do in user.to_dos|sort_by_due_date %}
+      <tr>
+        <td style="text-align:center;"><span class="badge badge-secondary badge-pill table-size">{{
+            to_do.due_date.strftime('%Y-%m-%d')
+            }}</span></td>
+        <td><span class="table-size">{{ to_do.data }}</span></td>
+        <td><button type="button" class="close" onClick="deleteToDo({{ to_do.id }})"><span
+              aria-hidden="true">&times;</span></button></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<form method="POST">
+  <div id="to_do_input">
+    <input type="date" name="due_date" id="due_date" />
+    <input type="text" name="to-do" id="to-do" class="form-control" placeholder="To do..." />
+  </div>
+  <br />
+  <div style="text-align: center;">
+    <button type="submit" class="btn btn-primary">Add To-Do</button>
+  </div>
+</form>
+{% endblock %}

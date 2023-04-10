@@ -30,6 +30,10 @@ def create_app():
     def load_user(id):
         return User.query.get(int(id))
     
+    @app.template_filter('sort_by_due_date')
+    def sort_by_due_date(to_dos):
+        return sorted(to_dos, key=lambda x: x.due_date)
+    
     return app
 
 def create_database(app):
