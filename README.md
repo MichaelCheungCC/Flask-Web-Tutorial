@@ -7,4 +7,4 @@ Hosted using AWS EC2 instance using Apache2:
 
 ### Demonstration
 
-![Farmers Market Finder Demo](demo/demo.gif)
+![Notes-App Demo](demo/demo.gif)
