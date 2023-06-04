@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM python:3.9.16
 
 # set the working directory
 WORKDIR /app
@@ -10,7 +10,7 @@ COPY . .
 RUN pip install -r requirements.txt
 
 # expose the necessary port
-EXPOSE 5000
+EXPOSE 5001
 
 # Start the application
 CMD ["python", "main.py"]
